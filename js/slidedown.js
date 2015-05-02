@@ -38,10 +38,15 @@ var marked = require('marked'),
   };
 
   Slidedown.prototype = {
+    to: function to(target, cb) {
+    this.target = target;
 
-    to: function to(target) {
-      this.target = target;
-    },
+    whenReady(function() {
+      if (typeof cb === "function") {
+        cb();
+      }
+    });
+  },
 
     destination: function destination() {
       var destination = typeof this.target === 'string' ?
@@ -86,13 +91,43 @@ var marked = require('marked'),
         handleClick('x > 90%', nextSlide);
         handleClick('x < 10%', prevSlide);
 
+        var numSlides = document.getElementsByClassName('slide').length;
+
+        // more key feature:
+        // using `home` key to go to first page
+        handleKey(36, goToSlide(1));
+
+        // using `end` key to go to last page
+        handleKey(35, goToSlide(numSlides));
+
+        // using `t` to go to toc page;
+        var tocElement = document.getElementById('toc');
+        if (tocElement) {
+          handleKey(84, goToSlide(getElementSlideNo(tocElement)));
+        }
+
+        // using `r` key to go to root page
+        // useful when the default md shows a listing of md's
+        handleKey(82, function() {
+          location.assign(location.pathname);
+        });
+
+        // Hammer integration with feature detection
         if (typeof Hammer !== 'undefined') {
           (function(Hammer) {
-            var hammer = Hammer(document, { drag_block_horizontal: true });
+            var hammer = Hammer(document, {
+              drag_block_horizontal: true
+            });
             hammer.on('swipeleft', nextSlide);
             hammer.on('swiperight', prevSlide);
           }(Hammer));
         }
+
+        // Change title to the first h1 of md
+        changeTitle();
+
+        // Generate TOC if #toc is found
+        generateTOC();
 
         // Focus on the target slide (or first, by default)
         focusTargetSlide();
@@ -109,7 +144,8 @@ var marked = require('marked'),
 
     fromMarkdown: function fromMarkdown(markdown) {
       marked.setOptions({
-        renderer: new CustomRenderer()
+        renderer: new CustomRenderer(),
+        breaks: true
       });
 
       var html = marked(markdown);
@@ -221,11 +257,13 @@ var marked = require('marked'),
     var list = document.createElement('UL');
     instructions.appendChild(list);
 
-    var options = [
-      'Use left + right arrow keys',
-      'Click on the left + right sides of the screen',
-      'Swipe left + right (on touch devices)'
-    ];
+  var options = [
+    'Use left + right arrow keys',
+    'Click on the left + right sides of the screen',
+    'Use home/ end key to go to first/ last page',
+    'Use r key to go to root page',
+    'Use t key to go to Table of Content'
+  ];
 
     forEach(options, function(option) {
       var listItem = document.createElement('LI');
@@ -323,11 +361,6 @@ var marked = require('marked'),
       addClass(next, 'current');
       addClass(following, 'next');
 
-      // Correct for any rogue dragging that occurred.
-      setTimeout(function() {
-        window.scrollTo(0, window.scrollY);
-      }, 0);
-
       setSlideId(next.id);
     }
   }
@@ -368,6 +401,53 @@ var marked = require('marked'),
     addClass(targetSlide, 'current');
     addClass(targetSlide.previousElementSibling, 'previous');
     addClass(targetSlide.nextElementSibling, 'next');
+
+    // Correct for any rogue dragging that occurred.
+    setTimeout(function() {
+      window.scrollTo(0, window.scrollY);
+    }, 0);
+  }
+
+  function changeTitle() {
+    var firstH1 = document.getElementsByTagName("h1")[0];
+    var title = firstH1 ? firstH1.textContent : 'slidedown';
+    document.title = title;
+    return title;
+  }
+
+  function getElementSlideNo (element) {
+    while (!(/slide/.test(element.className) || element === null)) {
+        element = element.parentNode;
+    }
+    return parseInt(element.id.substr(6));
+  }
+
+  function generateTOC(){
+    var tocElement = document.getElementById('toc');
+    if (!tocElement) return ;
+    var headings = document.querySelectorAll("h1, h2");
+    var tocMarkdownString = "";
+
+    forEach(headings, function (heading){
+      switch (heading.tagName) {
+        case 'H1':
+          tocMarkdownString += '- [' + heading.textContent + '](#slide-' + getElementSlideNo(heading) +')\n';
+        break;
+        case 'H2':
+          tocMarkdownString += '\t+ [' + heading.textContent + '](#slide-' + getElementSlideNo(heading) +')\n';
+        break;
+        default:
+      }
+    });
+
+    tocElement.innerHTML = marked(tocMarkdownString);
+  }
+
+  function goToSlide(slideNo) {
+    return function() {
+      setSlideId('slide-' + slideNo);
+      focusTargetSlide();
+    };
   }
 
   function CustomRenderer() {}
