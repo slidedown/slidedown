@@ -1,6 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var marked = require('marked'),
-    hljs   = require('highlight.js');
+    hljs   = require('highlight.js'),
+    extend = require('util-extend');
 
 (function() {
 
@@ -39,15 +40,24 @@ var marked = require('marked'),
   };
 
   Slidedown.prototype = {
-    to: function to(target, cb) {
-    this.target = target;
-
-    whenReady(function() {
-      if (typeof cb === "function") {
-        cb();
+    // default object, can be set by setOptions()
+    // must be put here as static variable as all
+    // exported functions are staticized
+    options: {
+      "marked": {
+        "breaks": true
       }
-    });
-  },
+    },
+
+    to: function to(target, cb) {
+      this.target = target;
+
+      whenReady(function() {
+        if (typeof cb === "function") {
+          cb();
+        }
+      });
+    },
 
     destination: function destination() {
       var destination = typeof this.target === 'string' ?
@@ -144,10 +154,11 @@ var marked = require('marked'),
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
-      marked.setOptions({
-        renderer: new CustomRenderer(),
-        breaks: true
-      });
+      marked.setOptions(
+        extend(this.options.marked, {
+          renderer: new CustomRenderer()
+        })
+      );
 
       var html = marked(markdown);
       return this.fromHTML(html);
@@ -167,8 +178,12 @@ var marked = require('marked'),
       request.send();
 
       return this;
-    }
+    },
 
+    // setOptions() should be run before any other function of Slidedown
+    setOptions: function setOptions(options) {
+      this.options = extend(this.options, value);
+    }
   };
 
   function whenReady(callback) {
@@ -481,12 +496,13 @@ var marked = require('marked'),
     'fromElements',
     'fromHTML',
     'fromMarkdown',
-    'fromXHR'
+    'fromXHR',
+    'setOptions'
   ]);
 
 })();
 
-},{"highlight.js":3,"marked":122}],2:[function(require,module,exports){
+},{"highlight.js":3,"marked":122,"util-extend":123}],2:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
 https://highlightjs.org/
@@ -12167,4 +12183,39 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 }());
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],123:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+module.exports = extend;
+function extend(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || typeof add !== 'object') return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+}
+
 },{}]},{},[1])

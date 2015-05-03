@@ -1,5 +1,6 @@
 var marked = require('marked'),
-    hljs   = require('highlight.js');
+    hljs   = require('highlight.js'),
+    extend = require('util-extend');
 
 (function() {
 
@@ -38,15 +39,24 @@ var marked = require('marked'),
   };
 
   Slidedown.prototype = {
-    to: function to(target, cb) {
-    this.target = target;
-
-    whenReady(function() {
-      if (typeof cb === "function") {
-        cb();
+    // default object, can be set by setOptions()
+    // must be put here as static variable as all
+    // exported functions are staticized
+    options: {
+      "marked": {
+        "breaks": true
       }
-    });
-  },
+    },
+
+    to: function to(target, cb) {
+      this.target = target;
+
+      whenReady(function() {
+        if (typeof cb === "function") {
+          cb();
+        }
+      });
+    },
 
     destination: function destination() {
       var destination = typeof this.target === 'string' ?
@@ -143,10 +153,11 @@ var marked = require('marked'),
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
-      marked.setOptions({
-        renderer: new CustomRenderer(),
-        breaks: true
-      });
+      marked.setOptions(
+        extend(this.options.marked, {
+          renderer: new CustomRenderer()
+        })
+      );
 
       var html = marked(markdown);
       return this.fromHTML(html);
@@ -166,8 +177,12 @@ var marked = require('marked'),
       request.send();
 
       return this;
-    }
+    },
 
+    // setOptions() should be run before any other function of Slidedown
+    setOptions: function setOptions(options) {
+      this.options = extend(this.options, options);
+    }
   };
 
   function whenReady(callback) {
@@ -480,7 +495,8 @@ var marked = require('marked'),
     'fromElements',
     'fromHTML',
     'fromMarkdown',
-    'fromXHR'
+    'fromXHR',
+    'setOptions'
   ]);
 
 })();
