@@ -17,9 +17,10 @@
   },
   "homepage": "https://github.com/slidedown/slidedown",
   "dependencies": {
+    "deep-defaults": "^1.0.3",
     "highlight.js": "^8.1.0",
     "marked": "^0.3.2",
-    "util-extend": "^1.0.1"
+    "z-schema": "^3.9.4"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
