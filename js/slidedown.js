@@ -181,7 +181,8 @@ var marked = require('marked'),
 
     // setOptions() should be run before any other function of Slidedown
     setOptions: function setOptions(options) {
-      this.options = extend(this.options, options);
+      Slidedown.prototype.options = extend(
+        Slidedown.prototype.options, options);
     }
   };
 

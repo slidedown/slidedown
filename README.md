@@ -1,6 +1,7 @@
-# slidedown
+# Slidedown
 
-Write in Markdown. slidedown will help you render the file into pretty slides.  
+Write in Markdown. Slidedown will help you render the file into pretty slides.
+
 All magic happens on the client side. A proper loader (`index.html`) is required.  
 The good news is, you don't have to prepare your own!!!
 
@@ -12,7 +13,7 @@ Please see [slidedown/slidedown.github.io](https://github.com/slidedown/slidedow
 ### 0. Prepare tree
 
 ```sh
-# create directory for slidedown repos
+# create directory for Slidedown repos
 ~$ mkdir slidedown; cd slidedown
 # pull source
 ~/slidedown$ git clone git@github.com:slidedown/slidedown.git
@@ -47,4 +48,4 @@ Please see [slidedown/slidedown.github.io](https://github.com/slidedown/slidedow
 ## Attribution
 
 @dtao started [this project](https://github.com/dtao/slidedown) (big thanks BTW).  
-@cyrusn and @leesei discovered it, added features to it and created this organiztion.
+@cyrusn and @leesei discovered it, added features to it and created this organization.
