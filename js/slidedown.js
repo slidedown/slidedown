@@ -1,6 +1,7 @@
 var marked = require('marked'),
     hljs   = require('highlight.js'),
-    extend = require('util-extend');
+    deepDefaults = require('deep-defaults'),
+    zschema = require('z-schema');
 
 (function() {
 
@@ -153,11 +154,11 @@ var marked = require('marked'),
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
-      marked.setOptions(
-        extend(this.options.marked, {
+      var markedOptions = deepDefaults({
           renderer: new CustomRenderer()
-        })
-      );
+        }, Slidedown.prototype.options.marked);
+
+      marked.setOptions(markedOptions);
 
       var html = marked(markdown);
       return this.fromHTML(html);
@@ -181,8 +182,41 @@ var marked = require('marked'),
 
     // setOptions() should be run before any other function of Slidedown
     setOptions: function setOptions(options) {
-      Slidedown.prototype.options = extend(
-        Slidedown.prototype.options, options);
+
+      // set the default value to some properties,
+      // otherwise if passing an empty object to setOption()
+      // will result to erase the default this.options.
+      zschema.registerFormat('defaultOptions', function(obj){
+        obj = deepDefaults(obj, Slidedown.prototype.options);
+        return true;
+      });
+
+      var customOptionsSchema = {
+        type: "object",
+        properties:{
+          marked: {
+            type: "object",
+            properties: {
+              gfm: { type: "boolean"},
+              tables: { type: "boolean"},
+              breaks: { type: "boolean"},
+              pedantic: { type: "boolean"},
+              sanitize: { type: "boolean"},
+              smartLists: { type: "boolean"},
+              smartypants: { type: "boolean"}
+            }
+          }
+        },
+        format: "defaultOptions"
+      };
+
+      var validator = new zschema();
+      var valid = validator.validate(options, customOptionsSchema);
+      if(!valid){
+        console.log(validator.getLastError());
+        return;
+      }
+      Slidedown.prototype.options = deepDefaults(options, Slidedown.prototype.options);
     }
   };
 
