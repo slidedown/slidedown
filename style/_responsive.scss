@@ -1,0 +1,50 @@
+// amend responsive feature `_responsive.scss`
+//   - use bootstrap size
+//   - ref: [CSS · Bootstrap](http://getbootstrap.com/css/#responsive-utilities)
+
+@mixin responsivePage ($fontsize, $width, $padding){
+  body {
+    font-size: $fontsize !important;
+  }
+  .slide .content {
+    max-width: $width !important;
+  }
+  [data-layout="title-only"], [data-layout="title-subtitle"]{
+    h1 {
+      width: $width;
+    }
+  }
+  [data-layout="side-by-side"] {
+    .left {
+      left: $padding;
+      right: 50%;
+      padding-right: $side-by-side-padding-inner;
+    }
+    .right {
+      right: $padding;
+      left: 50%;
+      padding-left: $side-by-side-padding-inner;
+    }
+  }
+}
+
+@media screen {
+  @media (max-width :$screen-xs-max) {
+    @include responsivePage($content-font-size-xs, $content-page-width-xs, $side-by-side-padding-xs);
+    .slide footer {
+      display: none !important;
+    }
+  }
+
+  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+    @include responsivePage($content-font-size-sm, $content-page-width-sm, $side-by-side-padding-sm);
+  }
+
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+    @include responsivePage($content-font-size-md, $content-page-width-md, $side-by-side-padding-md);
+  }
+
+  @media (min-width: $screen-lg-min) {
+    @include responsivePage($content-font-size-lg, $content-page-width-lg, $side-by-side-padding-lg);
+  }
+}

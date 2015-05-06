@@ -1,0 +1,20 @@
+h1 {
+  border-bottom: 1px solid $border-color;
+}
+
+h1,
+h2 {
+  @media screen {
+    text-align: center;
+  }
+  margin: 2vh auto;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  margin: $heading-margin;
+  padding: $heading-padding;
+  text-align: left;
+}

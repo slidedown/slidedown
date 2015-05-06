@@ -1,0 +1,23 @@
+@media print {
+  @page {
+    size: auto;
+    margin-top: $print-margin-top;
+    margin-left: $print-margin-left;
+    margin-bottom: $print-margin-bottom;
+    margin-right: $print-margin-right;
+  }
+
+  html,
+  body {
+    margin: 0 auto;
+    background: transparent;
+    display: block;
+    margin: 0;
+    box-shadow: 0;
+    font-size: $print-font-size !important;
+  }
+
+  .slide  {
+      margin-top: 24px;
+  }
+}

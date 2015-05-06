@@ -1,192 +1,483 @@
-@import url("http://fonts.googleapis.com/css?family=Inconsolata|Open+Sans:300,400,700");
-html,
+blockquote {
+  background-color: #e5e5e5;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin: 0 auto;
+  padding: 0.5em;
+}
+
 body {
-  height: 100%;
-  width: 100%;
+  font-family: Helvetica, sans-serif;
+  color: #4A4A4A;
+  background-color: #F8F8F8;
+}
+
+em,
+del,
+strong {
+  color: #f92672;
+}
+
+p + p,
+p + img,
+p + pre,
+p + blockquote,
+p + table,
+p + iframe,
+img + p,
+img + img,
+img + pre,
+img + blockquote,
+img + table,
+img + iframe,
+pre + p,
+pre + img,
+pre + pre,
+pre + blockquote,
+pre + table,
+pre + iframe,
+blockquote + p,
+blockquote + img,
+blockquote + pre,
+blockquote + blockquote,
+blockquote + table,
+blockquote + iframe,
+table + p,
+table + img,
+table + pre,
+table + blockquote,
+table + table,
+table + iframe,
+iframe + p,
+iframe + img,
+iframe + pre,
+iframe + blockquote,
+iframe + table,
+iframe + iframe {
+  margin-top: 1em;
+}
+
+.caption {
+  padding: 0.2em 0 1.5em;
   margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-body {
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
-}
-
-code {
-  font-family: "Inconsolata", monospace;
-}
-
-.slide {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  min-height: 100%;
-  width: 100%;
-  display: none;
-  overflow-x: hidden;
-}
-
-.slide .content {
-  min-height: calc(100% - 48px);
-  width: fit-content;
-  width: intrinsic;
-  max-width: 100%;
-  margin: auto;
-  padding-top: 48px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.slide footer {
-  position: absolute;
-  bottom: 12px;
-  width: 100%;
-  text-align: center;
-}
-
-.slide .navigation-instructions {
-  display: inline-block;
+  font-weight: bold;
   font-size: small;
-  color: #808080;
-  text-align: left;
+  opacity: 0.7;
 }
 
-.slide.previous,
-.slide.current,
-.slide.next {
-  display: block;
-  transition: left 0.5s ease;
-  -moz-transition: left 0.5s ease;
-  -webkit-transition: left 0.5s ease;
-}
-
-.slide.previous {
-  left: -100%;
-}
-
-.slide.current {
-  left: 0;
-}
-
-.slide.next {
-  left: 100%;
-}
-
-@media all and (max-width: 959px) {
-  body {
-    font-size: 125%;
+@media screen {
+  .caption {
+    text-align: center;
   }
 }
 
-@media all and (min-width: 960px) {
-  body {
-    font-size: 200%;
-  }
-
-  .slide .content {
-    max-width: 960px;
-  }
-}
-
-@media all and (min-width: 1280px) {
-  .slide .content {
-    max-width: 75%;
-  }
-}
-
-.slide h1,
-.slide h2,
-.slide h3 {
-  text-align: center;
-}
-
-.slide h1 strong,
-.slide h2 strong,
-.slide h3 strong {
-  color: red;
-}
-
-.slide pre {
-  position: relative;
-  padding: 12px;
-  background-color: #eee;
+pre {
+  font-family: monospace;
   white-space: pre-wrap;
+  margin: 0 auto;
+  padding: 0.5em;
+  text-align: left;
+  border-radius: 5px;
 }
 
-.slide blockquote {
-  border-left: 6px solid #888;
-  padding-left: 12px;
-}
-
-/* Center images on their own line (<p><img /></p>) */
-
-.slide p > img:first-child:last-child {
-  display: block;
-  margin: auto;
-}
-
-/* Yeah, I like Bootstrap's code formatting, OK? */
-
-.slide li code,
-.slide p code {
-  padding: 2px 4px;
-  font-size: 90%;
+p code,
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code,
+li code {
   color: #c7254e;
   background-color: #f9f2f4;
-  border-radius: 4px;
 }
 
-[data-layout="title-only"] h1 {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  margin-top: -36px;
-  font-size: 72px;
-  font-weight: bold;
-  line-height: 72px;
+@media print {
+  pre {
+    border: 1px solid #ddd;
+  }
 }
 
-[data-layout="title-subtitle"] h1 {
-  position: absolute;
-  bottom: 50%;
-  left: 0;
-  right: 0;
-  margin-bottom: 0;
-  font-size: 48px;
-  font-weight: bold;
+h1 {
+  border-bottom: 1px solid #ddd;
 }
 
-[data-layout="title-subtitle"] h2 {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  margin-top: 0;
-  font-size: 36px;
-  font-weight: normal;
+h1,
+h2 {
+  margin: 2vh auto;
 }
 
-[data-layout="side-by-side"] .left,
-[data-layout="side-by-side"] .right {
-  position: absolute;
-  text-align: center;
+@media screen {
+  h1,
+  h2 {
+    text-align: center;
+  }
 }
 
-[data-layout="side-by-side"] .left ul,
-[data-layout="side-by-side"] .right ul {
-  display: inline-block;
+h3,
+h4,
+h5,
+h6 {
+  margin: 1em auto 0;
+  padding: 0 1vmin;
   text-align: left;
 }
 
-[data-layout="side-by-side"] .left {
-  left: 24px;
-  right: 50%;
-  padding-right: 12px;
+img {
+  margin: 0 auto;
+  padding: 1vmin;
+  max-width: 80%;
+  display: block;
+  height: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-[data-layout="side-by-side"] .right {
-  right: 24px;
-  left: 50%;
-  padding-left: 12px;
+p > img:first-child:last-child,
+p > a > img:first-child:last-child {
+  display: block;
+  margin: auto;
+}
+
+.navigation-instructions {
+  margin: 0 auto;
+  color: #808080;
+  display: inline-block;
+  font-size: small;
+  text-align: left;
+}
+
+.navigation-instructions ul,
+.navigation-instructions p {
+  margin: 0 !important;
+}
+
+@media print {
+  .navigation-instructions {
+    display: none;
+  }
+}
+
+a {
+  color: #3F8EBB;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media screen {
+  ul,
+  ol {
+    margin: auto !important;
+    width: fit-content;
+    width: intrinsic;
+    padding-left: 4vmin;
+  }
+}
+
+li {
+  text-align: left;
+  margin: 0.5em 0;
+  padding: 0 1vw !important;
+}
+
+li > ol,
+li > ul {
+  margin: 0.5em 0 !important;
+  padding: 0 1em;
+}
+
+p {
+  margin: 0 auto;
+}
+
+@media print {
+@page {
+    size: auto;
+    margin-top: 0.75in;
+    margin-left: 0.75in;
+    margin-bottom: 0.75in;
+    margin-right: 0.75in;
+}
+
+  html,
+  body {
+    margin: 0 auto;
+    background: transparent;
+    display: block;
+    margin: 0;
+    box-shadow: 0;
+    font-size: 90% !important;
+  }
+
+  .slide {
+    margin-top: 24px;
+  }
+}
+
+@media screen {
+@media (max-width: 767px) {
+    body {
+      font-size: 90% !important;
+    }
+
+    .slide .content {
+      max-width: 90vw !important;
+    }
+
+    [data-layout="title-only"] h1,
+    [data-layout="title-subtitle"] h1 {
+      width: 90vw;
+    }
+
+    [data-layout="side-by-side"] .left {
+      left: 5%;
+      right: 50%;
+      padding-right: 2vw;
+    }
+
+    [data-layout="side-by-side"] .right {
+      right: 5%;
+      left: 50%;
+      padding-left: 2vw;
+    }
+
+    .slide footer {
+      display: none !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    body {
+      font-size: 120% !important;
+    }
+
+    .slide .content {
+      max-width: 80vw !important;
+    }
+
+    [data-layout="title-only"] h1,
+    [data-layout="title-subtitle"] h1 {
+      width: 80vw;
+    }
+
+    [data-layout="side-by-side"] .left {
+      left: 10%;
+      right: 50%;
+      padding-right: 2vw;
+    }
+
+    [data-layout="side-by-side"] .right {
+      right: 10%;
+      left: 50%;
+      padding-left: 2vw;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    body {
+      font-size: 150% !important;
+    }
+
+    .slide .content {
+      max-width: 70vw !important;
+    }
+
+    [data-layout="title-only"] h1,
+    [data-layout="title-subtitle"] h1 {
+      width: 70vw;
+    }
+
+    [data-layout="side-by-side"] .left {
+      left: 15%;
+      right: 50%;
+      padding-right: 2vw;
+    }
+
+    [data-layout="side-by-side"] .right {
+      right: 15%;
+      left: 50%;
+      padding-left: 2vw;
+    }
+}
+
+@media (min-width: 1200px) {
+    body {
+      font-size: 180% !important;
+    }
+
+    .slide .content {
+      max-width: 60vw !important;
+    }
+
+    [data-layout="title-only"] h1,
+    [data-layout="title-subtitle"] h1 {
+      width: 60vw;
+    }
+
+    [data-layout="side-by-side"] .left {
+      left: 20%;
+      right: 50%;
+      padding-right: 2vw;
+    }
+
+    [data-layout="side-by-side"] .right {
+      right: 20%;
+      left: 50%;
+      padding-left: 2vw;
+    }
+}
+}
+
+@media screen {
+  [data-layout="title-only"] h1 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 1vh auto;
+    bottom: 50vh;
+    font-size: 2.5em;
+    font-weight: bold;
+    border: none;
+  }
+
+  [data-layout="title-subtitle"] h1 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 1vh auto;
+    font-size: 2.5em;
+    bottom: 50vh;
+    font-weight: bold;
+  }
+
+  [data-layout="title-subtitle"] h2 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 1vh auto;
+    font-size: 1.5em;
+    top: 50vh;
+    font-weight: normal;
+  }
+
+  [data-layout="side-by-side"] .left,
+  [data-layout="side-by-side"] .right {
+    position: absolute;
+    text-align: center;
+  }
+
+  [data-layout="side-by-side"] .left .ul,
+  [data-layout="side-by-side"] .right .ul {
+    display: inline-block;
+    text-align: left;
+  }
+}
+
+@media screen {
+  html,
+  body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .slide {
+    top: 0px;
+    bottom: 0px;
+    width: 100vw;
+    min-height: 100vh;
+    position: absolute;
+    display: none;
+    overflow-x: hidden;
+  }
+
+  .slide .content {
+    margin: auto;
+    max-width: 100vw;
+    padding-top: 15vh;
+    min-height: 85vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .slide footer {
+    margin: 0 auto;
+    bottom: 1vh;
+    text-align: center;
+  }
+
+  .slide.previous,
+  .slide.current,
+  .slide.next {
+    display: block;
+  }
+
+  .slide.previous {
+    left: -100vw;
+  }
+
+  .slide.current {
+    left: 0;
+  }
+
+  .slide.next {
+    left: 100vw;
+  }
+}
+
+table {
+  max-width: 100%;
+  background-color: transparent;
+  min-width: 80%;
+  border-radius: 5px;
+}
+
+@media screen {
+  table {
+    margin: 0.5em auto;
+    text-align: center !important;
+  }
+}
+
+tbody > tr > th,
+tfoot > tr > th,
+thead > tr > td,
+tbody > tr > td,
+tfoot > tr > td {
+  margin: 0;
+  padding: 1vmin 2vmin;
+  vertical-align: top;
+}
+
+thead > tr > th,
+thead > tr > td {
+  margin: 0;
+  font-size: 1.1em;
+  padding: 1vmin 2vmin;
+  vertical-align: middle;
+  border-style: none none double;
+  background-color: #4A4A4A;
+  color: #F8F8F8;
+}
+
+tr:nth-child(even) {
+  background-color: #e5e5e5;
+}
+
+@media screen {
+  .print-only {
+    display: none;
+  }
+}
+
+@media print {
+  .screen-only {
+    display: none;
+  }
 }
