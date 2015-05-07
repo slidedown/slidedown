@@ -5,16 +5,16 @@ var rename     = require('gulp-rename');
 var concatCss  = require('gulp-concat-css');
 var minifyCss = require('gulp-minify-css');
 
-var JS = 'js/slidedown.js';
-var CSS = 'css/*.css';
+var SRC = 'src/slidedown.js';
+var STYLE = 'style/*.css';
 var DEST = 'dist/';
 if (process.env.SLIDEDOWN_DEST !== undefined) {
   console.log("using env dest: %s", process.env.SLIDEDOWN_DEST);
   DEST = process.env.SLIDEDOWN_DEST;
 }
 
-gulp.task('js', function() {
-  return gulp.src(JS)
+gulp.task('src', function() {
+  return gulp.src(SRC)
     .pipe(browserify())
     .pipe(rename('slidedown.build.js'))
     .pipe(gulp.dest(DEST))
@@ -23,8 +23,8 @@ gulp.task('js', function() {
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('css', function () {
-  return gulp.src(CSS)
+gulp.task('style', function () {
+  return gulp.src(STYLE)
     .pipe(concatCss("slidedown.build.css"))
     .pipe(gulp.dest(DEST))
     .pipe(minifyCss())
@@ -33,8 +33,8 @@ gulp.task('css', function () {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(JS, ['js']);
-  gulp.watch(CSS, ['css']);
+  gulp.watch(SRC, ['src']);
+  gulp.watch(STYLE, ['style']);
 });
 
-gulp.task('default', [ 'js', 'css', 'watch' ]);
+gulp.task('default', [ 'src', 'style', 'watch' ]);

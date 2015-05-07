@@ -1,6 +1,6 @@
 var marked = require('marked'),
     hljs   = require('highlight.js'),
-    extend = require('util-extend');
+    deepDefaults = require('deep-defaults');
 
 (function() {
 
@@ -153,10 +153,13 @@ var marked = require('marked'),
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
-      marked.setOptions(
-        extend(this.options.marked, {
+      var markedOptions = deepDefaults({
           renderer: new CustomRenderer()
-        })
+        },
+        Slidedown.prototype.options.marked
+      );
+      marked.setOptions(
+        markedOptions
       );
 
       var html = marked(markdown);
@@ -181,8 +184,8 @@ var marked = require('marked'),
 
     // setOptions() should be run before any other function of Slidedown
     setOptions: function setOptions(options) {
-      Slidedown.prototype.options = extend(
-        Slidedown.prototype.options, options);
+      Slidedown.prototype.options = deepDefaults(
+        options, Slidedown.prototype.options);
     }
   };
 
