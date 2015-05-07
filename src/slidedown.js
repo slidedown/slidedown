@@ -45,6 +45,9 @@ var marked = require('marked'),
     options: {
       "marked": {
         "breaks": true
+      },
+      "slidedown": {
+        showImageCaption: false
       }
     },
 
@@ -472,6 +475,13 @@ var marked = require('marked'),
   function CustomRenderer() {}
 
   CustomRenderer.prototype = new marked.Renderer();
+
+  CustomRenderer.prototype.image = function(href, title, text) {
+    if (Slidedown.prototype.options.slidedown.showImageCaption === true) {
+      return '<img src="' + href + '" alt="' + text + '"/><div class="caption">' + text + '</div>';
+    }
+    return '<img src="' + href + '" alt="' + text +'"/>';
+  };
 
   CustomRenderer.prototype.code = function code(code, lang) {
     if (!lang) {
