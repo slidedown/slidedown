@@ -1,0 +1,18 @@
+img {
+  margin: $block-margin;
+  padding: 1vmin;
+  max-width: $image-max-width;
+  display: block;
+  height: auto;
+  background-color: white;
+  border: $border;
+  border-radius: $border-radius;
+}
+
+p >,
+p > a > {
+  img:first-child:last-child{
+    display: block;
+    margin: auto;
+  }
+}

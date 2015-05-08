@@ -1,0 +1,19 @@
+body {
+  font-family: $slide-font-family;
+  color: $slide-font-color;
+  background-color: $background-color;
+}
+
+em,
+del,
+strong {
+  color: $color-alert;
+}
+
+// make consecutive `block` style seperate
+p, img, pre, blockquote, table, iframe {
+  + p, + img, + pre, + blockquote, + table, + iframe {
+    margin-top: 1em;
+  }
+}
+

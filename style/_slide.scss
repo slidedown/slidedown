@@ -1,0 +1,54 @@
+// basic skeleton of slide style
+
+@media screen {
+  html,
+  body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .slide {
+    top: 0px;
+    bottom: 0px;
+    width: 100vw;
+    min-height: 100vh;
+    position: absolute;
+    display: none;
+    overflow-x: hidden;
+
+    .content {
+      margin: auto;
+      max-width: $content-page-max-width;
+      padding-top: $content-padding-top;
+      min-height: 100vh - $content-padding-top;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    footer {
+      margin:0 auto;
+      bottom: 1vh;
+      text-align: center;
+    }
+
+    &.previous, &.current, &.next {
+      display: block;
+    }
+
+    &.previous {
+      left: -100vw;
+    }
+
+    &.current {
+      left: 0;
+    }
+
+    &.next {
+      left: 100vw;
+    }
+  }
+}
+

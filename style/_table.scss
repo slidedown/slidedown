@@ -1,0 +1,35 @@
+table {
+  @media screen {
+    margin: 0.5em auto;
+    text-align: center !important;
+  }
+  max-width: 100%;
+  background-color: transparent;
+  min-width: 80%;
+  border-radius: $border-radius;
+}
+
+tbody > tr > th,
+tfoot > tr > th,
+thead > tr > td,
+tbody > tr > td,
+tfoot > tr > td {
+  margin: 0;
+  padding: $table-padding;
+  vertical-align: top;
+}
+
+thead > tr > th,
+thead > tr > td {
+  margin: 0;
+  font-size: 1.1em;
+  padding: $table-padding;
+  vertical-align: middle;
+  border-style: none none double;
+  background-color: $slide-font-color;
+  color: $background-color;
+}
+
+tr:nth-child(even) {
+  background-color: $blockquote-background-color;
+}
