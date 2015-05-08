@@ -1,0 +1,85 @@
+// all variable are set at `_variable.scss`
+
+// slide
+$content-padding-top: 15vh; //.content padding top
+$content-page-max-width: 100vw;
+
+// basic
+$slide-font-family: Helvetica, sans-serif;
+$slide-font-color: #4A4A4A;
+$background-color: #F8F8F8;
+$color-alert: #f92672; // em strong italic style text
+
+// link
+$slide-link-color: #3F8EBB;
+
+// layout
+$title-h1-font-size: 2.5em; // title-only page heading1
+$title-subtitle-h2-font-size: 1.5em;
+$title-only-h1-position-from-bottom: 50vh;
+$title-subtitle-h1-position-from-bottom: 50vh;
+
+// Responsive
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+$content-page-width-xs: 90vw;
+$content-page-width-sm: 80vw;
+$content-page-width-md: 70vw;
+$content-page-width-lg: 60vw;
+$content-font-size-xs: 90%;
+$content-font-size-sm: 120%;
+$content-font-size-md: 150%;
+$content-font-size-lg: 180%;
+$side-by-side-padding-xs: 5%; // side-by-side page padding
+$side-by-side-padding-sm: 10%; // side-by-side page padding
+$side-by-side-padding-md: 15%; // side-by-side page padding
+$side-by-side-padding-lg: 20%; // side-by-side page padding
+$side-by-side-padding-inner: 2vw;
+$screen-xs-max: $screen-sm-min - 1;
+$screen-sm-max: ($screen-md-min - 1);
+$screen-md-max: ($screen-lg-min - 1);
+
+// for block like stuff
+// e.g. block, image, code stc
+$block-max-width: 80%;
+$border-color: #ddd;
+$border-radius: 5px;
+$border: 1px solid $border-color;
+$block-margin: 0 auto;
+$block-padding: 0.5em;
+
+// blockquote
+$blockquote-background-color: #e5e5e5;
+
+// heading
+$heading-margin: 1em auto 0;
+$heading-padding: 0 1vmin;
+
+// list
+$list-ulol-margin: auto;
+$list-ulol-padding-left: 4vmin;
+$list-li-margin: 0.5em 0;
+$list-li-padding: 0 1vw;
+$nest-list-li-margin: 0.5em 0;
+$nest-list-li-padding: 0 1em;
+
+// table
+$table-padding: 1vmin 2vmin;
+
+// image
+$image-max-width: 80%;
+
+// instruction
+$instruction-font-color: #808080;
+
+// code
+$inline-code-font-color: #c7254e;
+$inline-code-background-color: #f9f2f4;
+
+// Print
+$print-margin-top: 0.75in;
+$print-margin-left: 0.75in;
+$print-margin-bottom: 0.75in;
+$print-margin-right: 0.75in;
+$print-font-size: 90%;

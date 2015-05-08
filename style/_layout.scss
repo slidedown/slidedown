@@ -1,0 +1,46 @@
+// layout control the following situation
+// - title only page,
+// - tilte with subtitle page,
+// - side-by-side page
+
+@mixin title-setting() {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 1vh auto;
+}
+
+@media screen {
+
+  [data-layout="title-only"] h1 {
+    @include title-setting;
+    bottom: $title-only-h1-position-from-bottom;
+    font-size: $title-h1-font-size;
+    font-weight: bold;
+    border: none;
+  }
+  [data-layout="title-subtitle"] {
+    h1 {
+      @include title-setting();
+      font-size: $title-h1-font-size;
+      bottom: $title-subtitle-h1-position-from-bottom;
+      font-weight: bold;
+    }
+    h2 {
+      @include title-setting();
+      font-size: $title-subtitle-h2-font-size;
+      top: 100vh - $title-subtitle-h1-position-from-bottom;
+      font-weight: normal;
+    }
+  }
+  [data-layout="side-by-side"] {
+    .left, .right {
+      position: absolute;
+      text-align: center;
+      .ul {
+        display: inline-block;
+        text-align: left;
+      }
+    }
+  }
+}

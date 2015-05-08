@@ -1,0 +1,21 @@
+pre {
+  font-family: monospace;
+  white-space: pre-wrap;
+  margin: $block-margin;
+  padding: $block-padding;
+  text-align: left;
+  border-radius: $border-radius;
+}
+
+p,h1,h2,h3,h4,h5,h6,li {
+  code {
+    color: $inline-code-font-color;
+    background-color: $inline-code-background-color;
+  }
+}
+
+@media print {
+  pre {
+    border: $border;
+  }
+}

@@ -1,0 +1,21 @@
+ul, ol {
+  @media screen {
+    margin: $list-ulol-margin !important;
+    width: fit-content;
+    width: intrinsic;
+    padding-left: $list-ulol-padding-left;
+  }
+}
+
+li {
+  text-align: left;
+  margin: $list-li-margin;
+  padding: $list-li-padding !important;
+
+  >ol, >ul {
+    margin: $nest-list-li-margin !important;
+    padding: $nest-list-li-padding;
+  }
+}
+
+

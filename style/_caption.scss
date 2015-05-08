@@ -1,0 +1,12 @@
+// add `.caption` for captions `_caption.scss`
+
+.caption{
+  padding: 0.2em 0 1.5em;
+  margin: 0;
+  @media screen {
+    text-align: center;
+  }
+  font-weight: bold;
+  font-size: small;
+  opacity: 0.7;
+}

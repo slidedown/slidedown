@@ -4,9 +4,11 @@ var minify     = require('gulp-uglify');
 var rename     = require('gulp-rename');
 var concatCss  = require('gulp-concat-css');
 var minifyCss = require('gulp-minify-css');
+var sass = require('gulp-sass');
+var gutil = require('gulp-util');
 
 var SRC = 'src/slidedown.js';
-var STYLE = 'style/*.css';
+var STYLE = 'style/*.scss';
 var DEST = 'dist/';
 if (process.env.SLIDEDOWN_DEST !== undefined) {
   console.log("using env dest: %s", process.env.SLIDEDOWN_DEST);
@@ -14,8 +16,9 @@ if (process.env.SLIDEDOWN_DEST !== undefined) {
 }
 
 gulp.task('src', function() {
-  return gulp.src(SRC)
+  gulp.src(SRC)
     .pipe(browserify())
+    .on('error', gutil.log)
     .pipe(rename('slidedown.build.js'))
     .pipe(gulp.dest(DEST))
     .pipe(minify())
@@ -24,7 +27,9 @@ gulp.task('src', function() {
 });
 
 gulp.task('style', function () {
-  return gulp.src(STYLE)
+  gulp.src(STYLE)
+    .pipe(sass())
+    .on('error', gutil.log)
     .pipe(concatCss("slidedown.build.css"))
     .pipe(gulp.dest(DEST))
     .pipe(minifyCss())

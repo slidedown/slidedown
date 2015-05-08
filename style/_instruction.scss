@@ -1,0 +1,14 @@
+.navigation-instructions {
+  margin: 0 auto;
+  color: $instruction-font-color;
+  display: inline-block;
+  font-size: small;
+  text-align: left;
+
+  ul, p {
+    margin: 0 !important;
+  }
+  @media print {
+     display: none;
+  }
+}

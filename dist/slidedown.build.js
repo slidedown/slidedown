@@ -22661,19 +22661,18 @@ var marked = require('marked'),
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
-      var markedOption = deepDefaults({
+      var markedOptions = deepDefaults({
           renderer: new CustomRenderer()
         },
-        this.options.marked
+        Slidedown.prototype.options.marked
       );
       marked.setOptions(
-        markedOption
+        markedOptions
       );
 
       var html = marked(markdown);
       return this.fromHTML(html);
     },
-
 
     fromXHR: function fromXHR(title) {
       var slidedown = this,
@@ -22984,11 +22983,11 @@ var marked = require('marked'),
 
   CustomRenderer.prototype.code = function code(code, lang) {
     if (!lang) {
-      return marked.Renderer.prototype.code.call(this, code, lang);
+      return '<pre class="hljs">' + code + '</pre>';
     }
 
     var html = hljs.highlight(lang, code).value;
-    return '<pre class="' + lang + '">' + html + '</pre>';
+    return '<pre class="hljs ' + lang + '">' + html + '</pre>';
   };
 
   function staticize(constructor, properties) {
