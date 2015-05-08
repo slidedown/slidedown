@@ -22553,6 +22553,9 @@ var marked = require('marked'),
     options: {
       "marked": {
         "breaks": true
+      },
+      "slidedown": {
+        showImageCaption: false
       }
     },
 
@@ -22661,19 +22664,18 @@ var marked = require('marked'),
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
-      var markedOption = deepDefaults({
+      var markedOptions = deepDefaults({
           renderer: new CustomRenderer()
         },
-        this.options.marked
+        Slidedown.prototype.options.marked
       );
       marked.setOptions(
-        markedOption
+        markedOptions
       );
 
       var html = marked(markdown);
       return this.fromHTML(html);
     },
-
 
     fromXHR: function fromXHR(title) {
       var slidedown = this,
@@ -22981,6 +22983,13 @@ var marked = require('marked'),
   function CustomRenderer() {}
 
   CustomRenderer.prototype = new marked.Renderer();
+
+  CustomRenderer.prototype.image = function(href, title, text) {
+    if (Slidedown.prototype.options.slidedown.showImageCaption === true) {
+      return '<img src="' + href + '" alt="' + text + '"/><div class="caption">' + text + '</div>';
+    }
+    return '<img src="' + href + '" alt="' + text +'"/>';
+  };
 
   CustomRenderer.prototype.code = function code(code, lang) {
     if (!lang) {
