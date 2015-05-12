@@ -22,7 +22,7 @@ var marked = require('marked'),
         // <H2>) into the left pane.
         do {
           left.appendChild(content.firstChild);
-        } while (content.firstChild.tagName !== 'H1')
+        } while (content.firstChild.tagName !== 'H1');
 
         var right = document.createElement('DIV');
         right.className = 'right';
@@ -49,6 +49,20 @@ var marked = require('marked'),
       "slidedown": {
         showImageCaption: false
       }
+    },
+
+    parseQuery: function parseQuery() {
+        var querystring = document.location.search;
+        // remove any preceding url and split
+        querystring = querystring.substring(querystring.indexOf('?')+1).split('&');
+        var params = {}, pair, d = decodeURIComponent;
+        // match and parse
+        for (var i = querystring.length - 1; i >= 0; i--) {
+            pair = querystring[i].split('=');
+            params[d(pair[0])] = d(pair[1]);
+        }
+
+        return params;
     },
 
     to: function to(target, cb) {
@@ -510,6 +524,7 @@ var marked = require('marked'),
     'fromHTML',
     'fromMarkdown',
     'fromXHR',
+    'parseQuery',
     'setOptions'
   ]);
 
