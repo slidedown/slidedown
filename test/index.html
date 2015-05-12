@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Slidedown</title>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="lib/solarized_dark.css" />
+    <link rel="stylesheet" type="text/css" href="../dist/slidedown.build.css" />
+    <script type="text/javascript" src="lib/hammer.js"></script>
+    <script type="text/javascript" src="../dist/slidedown.build.js"></script>
+
+    <script>
+        // console.log(document.location);
+        var params = Slidedown.parseQuery();
+        var mdSource = params.src || 'md/test.md';
+        Slidedown.fromXHR(mdSource).to('#slides');
+    </script>
+</head>
+
+<body>
+    <div id="slides"></div>
+</body>
+
+</html>

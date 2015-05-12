@@ -1,0 +1,9 @@
+{
+  "destination": "lib",
+
+  "dependencies": [
+    ["EightMedia/hammer.js", "hammer.js"],
+    ["isagalaev/highlight.js", "src/styles/solarized_dark.css"],
+    ["knsv/mermaid", "dist/mermaid.slim.min.js"]
+  ]
+}
