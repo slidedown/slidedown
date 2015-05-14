@@ -128,16 +128,11 @@ var marked = require('marked'),
         handleKey(35, goToSlide(numSlides));
 
         // using `t` to go to toc page;
-        var tocElement = document.getElementById('toc');
-        if (tocElement) {
-          handleKey(84, goToSlide(getElementSlideNo(tocElement)));
-        }
+        handleKey(84, goToToc);
 
         // using `r` key to go to root page
         // useful when the default md shows a listing of md's
-        handleKey(82, function() {
-          location.assign(location.pathname);
-        });
+        handleKey(82, goToRoot);
 
         // Hammer integration with feature detection
         if (typeof Hammer !== 'undefined') {
@@ -484,6 +479,17 @@ var marked = require('marked'),
       setSlideId('slide-' + slideNo);
       focusTargetSlide();
     };
+  }
+
+  function goToToc() {
+    var tocElement = document.getElementById('toc');
+    if (tocElement) {
+      goToSlide(getElementSlideNo(tocElement))();
+    }
+  }
+
+  function goToRoot() {
+    location.assign(location.pathname);
   }
 
   function CustomRenderer() {}
