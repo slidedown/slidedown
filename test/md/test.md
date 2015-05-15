@@ -1,6 +1,6 @@
 # Developer test page
 
-## See Markdown [souce](http://github.com/slidedown/slidedown)
+## See Markdown [source](http://github.com/slidedown/slidedown)
 
 ***
 # Table of Content
