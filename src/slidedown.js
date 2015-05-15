@@ -47,6 +47,7 @@ var marked = require('marked'),
         "breaks": true
       },
       "slidedown": {
+        title: false,
         showImageCaption: false
       }
     },
@@ -453,8 +454,22 @@ var marked = require('marked'),
   }
 
   function changeTitle() {
-    var firstH1 = document.getElementsByTagName("h1")[0];
-    var title = firstH1 ? firstH1.textContent : 'slidedown';
+    var setting = Slidedown.prototype.options.slidedown.title;
+    var title;
+    switch (true){
+      case (typeof setting == 'string'):
+        // string (use the string value as title);
+        title = setting;
+        break;
+      case setting:
+        // true (use the first h1 of the md as title);
+        var firstH1 = document.getElementsByTagName("h1")[0];
+        title = firstH1 ? firstH1.textContent : 'Slidedown';
+        break;
+      default:
+        // false, null or undefined (use Slidedown as title);
+        title = 'Slidedown';
+    }
     document.title = title;
     return title;
   }
