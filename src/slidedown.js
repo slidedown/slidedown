@@ -135,14 +135,27 @@ var marked = require('marked'),
         handleKey(82, goToRoot);
 
         // Hammer integration with feature detection
+        // All gestures are designed for one-handed operation
         if (typeof Hammer !== 'undefined') {
-          (function(Hammer) {
-            var hammer = Hammer(document, {
-              drag_block_horizontal: true
-            });
-            hammer.on('swipeleft', nextSlide);
-            hammer.on('swiperight', prevSlide);
-          }(Hammer));
+          var slides = document.getElementById('slides');
+          var hammer = new Hammer(slides);
+
+          // enable double tap
+          hammer.get('tap').set({
+            touchAction: 'multitap'
+          });
+
+          // swipe left and right to change slide
+          hammer.on('swipeleft', nextSlide);
+          hammer.on('swiperight', prevSlide);
+
+          // more gesture features:
+          // press and hold will go to root page
+          // useful when the default md shows a listing of md's
+          hammer.on('press', goToRoot);
+
+          // double tap will go to toc page
+          hammer.on('doubletap', goToToc);
         }
 
         // Change title to the first h1 of md
@@ -288,13 +301,13 @@ var marked = require('marked'),
     var list = document.createElement('UL');
     instructions.appendChild(list);
 
-  var options = [
-    'Use left + right arrow keys',
-    'Click on the left + right sides of the screen',
-    'Use home/ end key to go to first/ last page',
-    'Use r key to go to root page',
-    'Use t key to go to Table of Content'
-  ];
+    var options = [
+      'Use left + right arrow keys',
+      'Click on the left + right sides of the screen',
+      'Use home/ end key to go to first/ last page',
+      'Use r key to go to root page',
+      'Use t key to go to Table of Content'
+    ];
 
     forEach(options, function(option) {
       var listItem = document.createElement('LI');
