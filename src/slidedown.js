@@ -47,6 +47,7 @@ var marked = require('marked'),
         "breaks": true
       },
       "slidedown": {
+        title: false,
         showImageCaption: false
       }
     },
@@ -135,14 +136,27 @@ var marked = require('marked'),
         handleKey(82, goToRoot);
 
         // Hammer integration with feature detection
+        // All gestures are designed for one-handed operation
         if (typeof Hammer !== 'undefined') {
-          (function(Hammer) {
-            var hammer = Hammer(document, {
-              drag_block_horizontal: true
-            });
-            hammer.on('swipeleft', nextSlide);
-            hammer.on('swiperight', prevSlide);
-          }(Hammer));
+          var slides = document.getElementById('slides');
+          var hammer = new Hammer(slides);
+
+          // enable double tap
+          hammer.get('tap').set({
+            touchAction: 'multitap'
+          });
+
+          // swipe left and right to change slide
+          hammer.on('swipeleft', nextSlide);
+          hammer.on('swiperight', prevSlide);
+
+          // more gesture features:
+          // press and hold will go to root page
+          // useful when the default md shows a listing of md's
+          hammer.on('press', goToRoot);
+
+          // double tap will go to toc page
+          hammer.on('doubletap', goToToc);
         }
 
         // Change title to the first h1 of md
@@ -288,13 +302,13 @@ var marked = require('marked'),
     var list = document.createElement('UL');
     instructions.appendChild(list);
 
-  var options = [
-    'Use left + right arrow keys',
-    'Click on the left + right sides of the screen',
-    'Use home/ end key to go to first/ last page',
-    'Use r key to go to root page',
-    'Use t key to go to Table of Content'
-  ];
+    var options = [
+      'Use left + right arrow keys',
+      'Click on the left + right sides of the screen',
+      'Use home/ end key to go to first/ last page',
+      'Use r key to go to root page',
+      'Use t key to go to Table of Content'
+    ];
 
     forEach(options, function(option) {
       var listItem = document.createElement('LI');
@@ -440,8 +454,22 @@ var marked = require('marked'),
   }
 
   function changeTitle() {
-    var firstH1 = document.getElementsByTagName("h1")[0];
-    var title = firstH1 ? firstH1.textContent : 'slidedown';
+    var setting = Slidedown.prototype.options.slidedown.title;
+    var title;
+    switch (true){
+      case (typeof setting == 'string'):
+        // string (use the string value as title);
+        title = setting;
+        break;
+      case setting:
+        // true (use the first h1 of the md as title);
+        var firstH1 = document.getElementsByTagName("h1")[0];
+        title = firstH1 ? firstH1.textContent : 'Slidedown';
+        break;
+      default:
+        // false, null or undefined (use Slidedown as title);
+        title = 'Slidedown';
+    }
     document.title = title;
     return title;
   }
