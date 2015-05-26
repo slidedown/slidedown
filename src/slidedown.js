@@ -51,6 +51,22 @@ var marked = require('marked'),
       }
     },
 
+    escapeHTML: (function () {
+        var MAP = {
+            '"': '&quot;', '&': '&amp;', "'": '&#39;',
+            '/': '&#47;',  '<': '&lt;',  '>': '&gt;'
+        };
+
+        return function (text, forAttribute) {
+          return text.replace(
+            forAttribute ? /[&<>/'"]/g : /[&<>/]/g,
+            function(c) {
+              return MAP[c];
+            }
+          );
+        };
+    }()),
+
     parseQuery: function parseQuery() {
         var querystring = document.location.search;
         // remove any preceding url and split
@@ -504,11 +520,15 @@ var marked = require('marked'),
   };
 
   CustomRenderer.prototype.code = function code(code, lang) {
-    if (!lang) {
-      return '<pre class="hljs">' + code + '</pre>';
+    var html;
+
+    try {
+      html = hljs.highlight(lang, code).value;
+    }
+    catch (err) {
+      html = Slidedown.prototype.escapeHTML(code);
     }
 
-    var html = hljs.highlight(lang, code).value;
     return '<pre class="hljs ' + lang + '">' + html + '</pre>';
   };
 
