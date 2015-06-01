@@ -153,11 +153,22 @@ var marked = require('marked'),
         // Hammer integration with feature detection
         if (typeof Hammer !== 'undefined') {
           (function(Hammer) {
-            var hammer = Hammer(document, {
-              drag_block_horizontal: true
+            var hammer = new Hammer(document.body);
+
+            // enable double tap
+            hammer.get('tap').set({
+              touchAction: 'multitap'
             });
+
+            // swipe left and right to change slide
             hammer.on('swipeleft', nextSlide);
             hammer.on('swiperight', prevSlide);
+
+            // press and hold to go to root page
+            hammer.on('press', goToRoot);
+
+            // double tap to go to toc page
+            hammer.on('doubletap', goToToc);
           }(Hammer));
         }
 
@@ -290,33 +301,73 @@ var marked = require('marked'),
   }
 
   function addNavigationInstructions(element) {
+    // prepare instruction data
+    var keyboard = {
+      title: "Keyboard",
+      instructions: [
+        'Use left + right arrow keys',
+        'Click on the left + right sides of the screen',
+        'Use home/ end key to go to first/ last page',
+        'Use r key to go to root page',
+        'Use t key to go to Table of Content'
+      ]
+    };
+
+    var touch = {
+      title: "Touch/Mouse",
+      instructions: [
+        "Swipe left and right to change slide",
+        "Press and hold to go to root page",
+        "Double tap to go to toc page"
+      ]
+    };
+
+    // include keyboard instructions by default
+    var instructionArray = [ keyboard ];
+    if (typeof Hammer !== 'undefined') {
+      // include touch instructions if Hammer is used
+      // use column layout
+      keyboard.className = 'left';
+      touch.className = 'right';
+      instructionArray.push(touch);
+    }
+
+    // create in-memory DOM objects
+    var navInstructions = document.createElement('DIV');
+    navInstructions.className = 'navigation-instructions';
+    navInstructions.setAttribute('data-layout', 'side-by-side');
+    forEach(instructionArray, function (item) {
+      navInstructions.appendChild(createInstructionElement(item));
+    });
+
     var footer = document.createElement('FOOTER');
+    footer.appendChild(navInstructions);
+    // add to DOM
     element.appendChild(footer);
 
-    var instructions = document.createElement('DIV');
-    instructions.className = 'navigation-instructions';
-    footer.appendChild(instructions);
+    // helper function
+    function createInstructionElement(options) {
+      // console.log(options);
+      var instructions = document.createElement('DIV');
+      if (options.className) {
+        instructions.className = options.className;
+      }
 
-    var label = document.createElement('P');
-    label.textContent = 'Navigation options:';
-    instructions.appendChild(label);
+      var label = document.createElement('H1');
+      label.textContent = options.title;
+      instructions.appendChild(label);
 
-    var list = document.createElement('UL');
-    instructions.appendChild(list);
+      var list = document.createElement('UL');
+      instructions.appendChild(list);
 
-  var options = [
-    'Use left + right arrow keys',
-    'Click on the left + right sides of the screen',
-    'Use home/ end key to go to first/ last page',
-    'Use r key to go to root page',
-    'Use t key to go to Table of Content'
-  ];
+      forEach(options.instructions, function(instruction) {
+        var listItem = document.createElement('LI');
+        listItem.textContent = instruction;
+        list.appendChild(listItem);
+      });
 
-    forEach(options, function(option) {
-      var listItem = document.createElement('LI');
-      listItem.textContent = option;
-      list.appendChild(listItem);
-    });
+      return instructions;
+    }
   }
 
   function removeClass(element, className) {

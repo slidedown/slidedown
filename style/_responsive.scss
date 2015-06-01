@@ -31,9 +31,6 @@
 @media screen {
   @media (max-width :$screen-xs-max) {
     @include responsivePage($content-font-size-xs, $content-page-width-xs, $side-by-side-padding-xs);
-    .slide footer {
-      display: none !important;
-    }
   }
 
   @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
