@@ -47,6 +47,7 @@ var marked = require('marked'),
         "breaks": true
       },
       "slidedown": {
+        title: false,
         showImageCaption: false
       }
     },
@@ -507,20 +508,33 @@ var marked = require('marked'),
   }
 
   function changeTitle() {
-    var firstH1 = document.getElementsByTagName("h1")[0];
-    var title = firstH1 ? firstH1.textContent : 'slidedown';
+    var title = 'Slidedown';  // default
+
+    var setting = Slidedown.prototype.options.slidedown.title;
+    if (typeof setting === 'string' && setting) {
+      // use the given string as title
+      title = setting;
+    }
+    else if (typeof setting === 'boolean' && setting) {
+      // use the first h1 of the md as title
+      var firstH1 = document.getElementsByTagName("h1")[0];
+      if (firstH1) {
+        title = firstH1.textContent;
+      }
+    }
+
     document.title = title;
     return title;
   }
 
-  function getElementSlideNo (element) {
+  function getElementSlideNo(element) {
     while (!(/slide/.test(element.className) || element === null)) {
         element = element.parentNode;
     }
     return parseInt(element.id.substr(6));
   }
 
-  function generateTOC(){
+  function generateTOC() {
     var tocElement = document.getElementById('toc');
     if (!tocElement) return ;
     var headings = document.querySelectorAll("h1, h2");
@@ -577,6 +591,8 @@ var marked = require('marked'),
       html = hljs.highlight(lang, code).value;
     }
     catch (err) {
+      // invalid lang and other error
+      // escape before rendering to HTML
       html = Slidedown.prototype.escapeHTML(code);
     }
 
