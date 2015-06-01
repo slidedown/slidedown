@@ -132,16 +132,13 @@ var marked = require('marked'),
         // Attach left/right keyboard shortcuts
         handleKey(39, nextSlide);
         handleKey(37, prevSlide);
-        handleClick('x > 90%', nextSlide);
-        handleClick('x < 10%', prevSlide);
-
-        var numSlides = document.getElementsByClassName('slide').length;
 
         // more key feature:
         // using `home` key to go to first page
         handleKey(36, goToSlide(1));
 
         // using `end` key to go to last page
+        var numSlides = document.getElementsByClassName('slide').length;
         handleKey(35, goToSlide(numSlides));
 
         // using `t` to go to toc page;
@@ -164,6 +161,9 @@ var marked = require('marked'),
             // swipe left and right to change slide
             hammer.on('swipeleft', nextSlide);
             hammer.on('swiperight', prevSlide);
+
+            // tap to flip slides
+            hammer.on('tap', handleTap);
 
             // press and hold to go to root page
             hammer.on('press', goToRoot);
@@ -389,59 +389,12 @@ var marked = require('marked'),
     });
   }
 
-  function handleClick(conditions, callback) {
-    conditions = parseConditions(conditions);
-
-    document.addEventListener('click', function(e) {
-      if (conditions(e)) {
-        callback();
-      }
-    });
-  }
-
-  function parseConditions(conditions) {
-    conditions = conditions.split(/\s+/);
-
-    var property  = conditions[0],
-        operator  = conditions[1],
-        threshold = conditions[2];
-
-    if (threshold.charAt(threshold.length - 1) === '%') {
-      threshold = Number(threshold.substring(0, threshold.length - 1));
-      threshold /= 100;
-    } else {
-      threshold = Number(threshold);
-    }
-
-    var comparisonProperty;
-    switch (property) {
-      case 'x':
-        property = 'clientX';
-        comparisonProperty = 'innerWidth';
-        break;
-
-      case 'y':
-        property = 'clientY';
-        comparisonProperty = 'innerHeight';
-        break;
-
-      default:
-        throw "Unrecognized property: '" + property + '"';
-    }
-
-    switch (operator) {
-      case '<':
-        return function(e) {
-          return e[property] < (window[comparisonProperty] * threshold);
-        };
-
-      case '>':
-        return function(e) {
-          return e[property] > (window[comparisonProperty] * threshold);
-        };
-
-      default:
-        throw "Unrecognized operator: '" + operator + '"';
+  function handleTap(event) {
+    var tapLocation = event.center.x / window.innerWidth;
+    if (tapLocation < 0.1) {
+      prevSlide();
+    } else if (tapLocation > 0.9) {
+      nextSlide();
     }
   }
 
