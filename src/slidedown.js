@@ -315,7 +315,7 @@ var marked = require('marked'),
     };
 
     var touch = {
-      title: "Touch/Mouse",
+      title: "Touch / Mouse",
       instructions: [
         "Swipe left and right to change slide",
         "Press and hold to go to root page",
