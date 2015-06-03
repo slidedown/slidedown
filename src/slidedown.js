@@ -307,7 +307,6 @@ var marked = require('marked'),
       title: "Keyboard",
       instructions: [
         'Use left + right arrow keys',
-        'Click on the left + right sides of the screen',
         'Use home/ end key to go to first/ last page',
         'Use r key to go to root page',
         'Use t key to go to Table of Content'
@@ -317,9 +316,10 @@ var marked = require('marked'),
     var touch = {
       title: "Touch / Mouse",
       instructions: [
+        'Tap or click on the left/right sides to change slide',
         "Swipe left and right to change slide",
         "Press and hold to go to root page",
-        "Double tap to go to toc page"
+        "Double tap to go to TOC page"
       ]
     };
 
@@ -354,7 +354,8 @@ var marked = require('marked'),
         instructions.className = options.className;
       }
 
-      var label = document.createElement('H1');
+      var label = document.createElement('SPAN');
+      label.className = "instructions-title";
       label.textContent = options.title;
       instructions.appendChild(label);
 
